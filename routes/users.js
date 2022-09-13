@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+var isNullOrEmpty = require('check-null-or-empty');
 
 const User = require('../models/User');
 
@@ -10,6 +11,21 @@ router.post('/signup', (req, res, next) => {
     User.find({email: req.body.email})
     .exec()
     .then(users => {
+        if(req.body.email===''){
+            res.status(404).json({
+            message: 'Incorrect Input for Email'
+            });
+        }
+        if(req.body.password===''){
+            res.status(404).json({
+            message: 'Incorrect Input for Password'
+            });
+        }
+        if(req.body.mobno===''){
+            res.status(404).json({
+            message: 'Incorrect Input for Mobile Number'
+            });
+        }
         if(users.length>=1) {
             return res.status(409).json({
                 message: 'Mail already exists'
@@ -17,7 +33,7 @@ router.post('/signup', (req, res, next) => {
         } else {
             bcrypt.hash(req.body.password, 10, (err, hash) => {
                 if(err) {
-                    return res.status(500).json({
+                    return res.status(404).json({
                         error : err
                     });
                 } else {
@@ -36,10 +52,10 @@ router.post('/signup', (req, res, next) => {
                     })
                     .catch(err => {
                         console.log(err);
-                        res.status(500).json({
-                            error: err
+                        res.status(404).json({
+                            error: err.message
                         });
-                    });
+                    }); 
                 }
             });
         }
@@ -83,7 +99,7 @@ router.post('/login', (req, res, next) => {
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({
+        res.status(404).json({
             error: err
         });
 });

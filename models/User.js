@@ -10,11 +10,12 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     mobno: {
         type: String,
-        required: true
+        required: true,
+        match: /^\+?([0-9]{3})\)?[ -]?([0-9]{3})[ -]?([0-9]{4})$/
     }
 });
 
