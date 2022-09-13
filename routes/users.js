@@ -3,11 +3,12 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-var isNullOrEmpty = require('check-null-or-empty');
+const {addUserValidation} = require('../middleware/validation');
+//var isNullOrEmpty = require('check-null-or-empty');
 
-const User = require('../models/User');
+const User = require('../models/DB/User');
 
-router.post('/signup', (req, res, next) => {
+router.post('/signup', addUserValidation, (req, res, next) => {
     User.find({email: req.body.email})
     .exec()
     .then(users => {
