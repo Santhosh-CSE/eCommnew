@@ -1,11 +1,14 @@
 const express= require('express');
 const router = express.Router();
 const schemaCart = require('../models/DB/cartschema');
+const checkProduct = require('../middleware/checkProduct')
 //const cartMatch = require('../middleware/authenticate')
 
 //POSTING into Cart
-router.post('/', async (req,res) =>
+router.post('/', checkProduct, async (req,res) =>
 {
+//const count = Object.keys(req.body.productid).length;
+//console.log(count);
 const postdata = new schemaCart({
 productid: req.body.productid
 })
