@@ -8,8 +8,13 @@ require('dotenv/config');
 app.use(bodyParser.json());
 
 const userRoutes = require('./routes/users');
-
 app.use('/users', userRoutes);
+
+const productRoutes = require('./routes/products');
+app.use('/products', productRoutes);
+
+const addToCartRoutes = require('./routes/addToCart');
+app.use('/addtoCart', addToCartRoutes);
 
 //Routes
 app.get('/',(req,res)=>{
